@@ -1,0 +1,12 @@
+// This is a single project
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+}
+task wrapper(type: Wrapper, description: "Create a Gradle self-download wrapper") {
+   gradleVersion = "1.0-milestone-9"
+}
