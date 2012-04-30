@@ -3,10 +3,38 @@
 apply plugin: 'java'
 
 repositories {
+	flatDir { dirs '/Users/SWilliams/Documents/repos/github/pidster/vert.x/target' }
     mavenCentral()
+    mavenLocal()
 }
+
 dependencies {
+	compile fileTree('/Users/SWilliams/Documents/repos/github/pidster/vert.x/target').matching {
+		include 'vert.x-core.jar'
+		include 'vert.x-platform.jar'
+	}
+
+	compile "org.springframework:spring-beans:$springVersion"
+	compile "org.springframework:spring-core:$springVersion"
+	compile "org.springframework:spring-context:$springVersion"
+	compile "org.springframework:spring-context-support:$springVersion"
+	compile "org.springframework:spring-expression:$springVersion"
+
+	// compile "org.vertx:vertx-embedded:$vertxVersion"
+
+	testCompile "org.springframework:spring-test:$springVersion"
+	testCompile "junit:junit:$junitVersion"
+	
+	testCompile "org.slf4j:slf4j-api:$slf4jVersion"
+	testCompile "log4j:log4j:$log4jVersion"
+	testCompile "io.netty:netty:$nettyVersion"
+	testCompile "com.hazelcast:hazelcast:$hazelcastVersion"
+	testCompile "org.codehaus.jackson:jackson-core-asl:$jacksonVersion"
+	testCompile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
+	testCompile "org.mozilla:rhino:$rhinoVersion"
+	testCompile "org.jruby:jruby:$jrubyVersion"
 }
+
 task wrapper(type: Wrapper, description: "Create a Gradle self-download wrapper") {
-   gradleVersion = "1.0-milestone-9"
+   gradleVersion = "$gradleVersion"
 }

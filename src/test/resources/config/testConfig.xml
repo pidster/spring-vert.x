@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:vertx="http://www.springframework.org/schema/vertx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+		http://www.springframework.org/schema/vertx http://www.springframework.org/schema/vertx/spring-vertx-1.0.xsd">
+
+	<vertx:node id="vertxNode"/>
+
+	<vertx:http-server id="vertxHttpServer" port="8080">
+		<vertx:handler path="/*" method="handle">
+			<bean id="http1" class="org.springframework.vertx.HttpHandler1"></bean>
+		</vertx:handler>
+	</vertx:http-server>
+
+	<vertx:websocket-server id="vertxWebSocketServer" port="8090">
+		<vertx:handler path="/echo1" method="handle">
+			<bean id="echo1" class="org.springframework.vertx.EchoHandler"></bean>
+		</vertx:handler>
+		<vertx:handler path="/echo2" method="handle">
+			<ref bean="echo2"/>
+		</vertx:handler>
+	</vertx:websocket-server>
+
+	<bean id="echo2" class="org.springframework.vertx.EchoHandler"></bean>
+
+</beans>
