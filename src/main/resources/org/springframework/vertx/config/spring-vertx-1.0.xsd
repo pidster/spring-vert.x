@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.springframework.org/schema/vertx"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            xmlns:tool="http://www.springframework.org/schema/tool"
+            targetNamespace="http://www.springframework.org/schema/vertx"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/tool"/>
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+	<xsd:element name="node">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<tool:annotation kind="ref">
+					<tool:expected-type type="org.springframework.vertx.VertxNodeFactoryBean"/>
+				</tool:annotation>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="port" type="xsd:int">
+						<xsd:annotation>
+							<xsd:documentation>
+								The cluster port
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="address" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								The address to listen to for the cluster
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="http-server">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<tool:annotation kind="ref">
+					<tool:expected-type type="org.springframework.vertx.HttpServerFactoryBean"/>
+				</tool:annotation>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:sequence>
+						<xsd:element ref="handler" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="port" type="xsd:int" use="required">
+						<xsd:annotation>
+							<xsd:documentation>
+								The port the http server listens to
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="address" type="xsd:string" default="127.0.0.1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The address the http server listens to
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="node" type="xsd:string" default="vertxNode">
+						<xsd:annotation>
+							<xsd:documentation>
+								The vertx template
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>			
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="websocket-server">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<tool:annotation kind="ref">
+					<tool:expected-type type="org.springframework.vertx.WebSocketServerFactoryBean"/>
+				</tool:annotation>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:sequence>
+						<xsd:element ref="handler" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="port" type="xsd:int" use="required">
+						<xsd:annotation>
+							<xsd:documentation>
+								The port the websocket server listens to
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="address" type="xsd:string" default="127.0.0.1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The address the websocket server listens to
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="node" type="xsd:string" default="vertxNode">
+						<xsd:annotation>
+							<xsd:documentation>
+								The vertx template
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>	
+
+    <xsd:group name="limitedType">
+        <xsd:sequence>
+            <xsd:choice minOccurs="1" maxOccurs="unbounded">
+                <xsd:element ref="beans:bean"/>
+                <xsd:element ref="beans:ref"/>
+                <xsd:any minOccurs="0"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:group>
+
+	<xsd:element name="handler">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:group ref="limitedType"/>
+					<xsd:attribute name="path" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								The path the handler responds to
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="method" type="xsd:string">
+						<xsd:annotation>
+						
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="ref" type="xsd:string">
+						<xsd:annotation>
+						
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+
+<!-- 	<xsd:element name="handler">
+		<xsd:annotation>
+			<xsd:documentation>
+			
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+
+	<xsd:element name="verticle-manager">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			A Verticle Manager
+			]]></xsd:documentation>
+			<xsd:appinfo>
+				<tool:annotation kind="ref">
+					<tool:expected-type type="org.springframework.vertx.VerticleManagerFactoryBean"/>
+				</tool:annotation>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:element name="verticle">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			A Verticle
+			]]></xsd:documentation>
+			<xsd:appinfo>
+				<tool:annotation kind="ref">
+					<tool:expected-type type="org.springframework.vertx.VerticleFactoryBean"/>
+				</tool:annotation>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+ -->
+
+<!-- 	<xsd:element name="http-server">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			A vert.x HttpServer
+			]]></xsd:documentation>
+			<xsd:appinfo>
+				<tool:annotation kind="ref">
+					<tool:expected-type type="org.vertx.java.core.http.HttpServer"/>
+				</tool:annotation>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="serverType"></xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="serverType">
+		<xsd:attribute name="id" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+					The id of the server.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="hostname" type="xsd:string">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+					The id of the server.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="port" type="xsd:int" use="required">
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+					The id of the server.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType> -->
+
+</xsd:schema>

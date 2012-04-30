@@ -1,0 +1,4 @@
+# Tooling related information for the vert.x namespace
+http\://www.springframework.org/schema/vertx@name=vert.x Namespace
+http\://www.springframework.org/schema/vertx@prefix=vertx
+# http\://www.springframework.org/schema/vertx@icon=org/springframework/vertx/config/spring-vertx.gif
