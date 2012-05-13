@@ -21,7 +21,7 @@
 		<xsd:complexType>
 			<xsd:complexContent>
 				<xsd:extension base="beans:identifiedType">
-					<xsd:attribute name="port" type="xsd:int">
+					<xsd:attribute name="port" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation>
 								The cluster port
@@ -32,6 +32,29 @@
 						<xsd:annotation>
 							<xsd:documentation>
 								The address to listen to for the cluster
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="event-bus">
+		<xsd:annotation>
+			<xsd:appinfo>
+				<tool:annotation kind="ref">
+					<tool:expected-type type="org.springframework.vertx.VertxEventBusFactoryBean"/>
+				</tool:annotation>
+			</xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:attribute name="node" type="xsd:string" default="vertxNode">
+						<xsd:annotation>
+							<xsd:documentation>
+								The vertx node to use
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:attribute>
@@ -54,7 +77,7 @@
 					<xsd:sequence>
 						<xsd:element ref="handler" minOccurs="1" maxOccurs="unbounded"></xsd:element>
 					</xsd:sequence>
-					<xsd:attribute name="port" type="xsd:int" use="required">
+					<xsd:attribute name="port" type="xsd:string" use="required">
 						<xsd:annotation>
 							<xsd:documentation>
 								The port the http server listens to
@@ -71,7 +94,7 @@
 					<xsd:attribute name="node" type="xsd:string" default="vertxNode">
 						<xsd:annotation>
 							<xsd:documentation>
-								The vertx template
+								The vertx node
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:attribute>
@@ -94,7 +117,7 @@
 					<xsd:sequence>
 						<xsd:element ref="handler" minOccurs="1" maxOccurs="unbounded"></xsd:element>
 					</xsd:sequence>
-					<xsd:attribute name="port" type="xsd:int" use="required">
+					<xsd:attribute name="port" type="xsd:string" use="required">
 						<xsd:annotation>
 							<xsd:documentation>
 								The port the websocket server listens to
@@ -130,11 +153,21 @@
         </xsd:sequence>
     </xsd:group>
 
+    <xsd:group name="singleType">
+        <xsd:sequence>
+            <xsd:choice minOccurs="1" maxOccurs="1">
+                <xsd:element ref="beans:bean"/>
+                <xsd:element ref="beans:ref"/>
+                <xsd:any minOccurs="0"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:group>
+
 	<xsd:element name="handler">
 		<xsd:complexType>
 			<xsd:complexContent>
 				<xsd:extension base="beans:identifiedType">
-					<xsd:group ref="limitedType"/>
+					<xsd:group ref="singleType"/>
 					<xsd:attribute name="path" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation>
@@ -157,6 +190,59 @@
 		</xsd:complexType>
 	</xsd:element>
 
+	<xsd:element name="http-handler">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:group ref="singleType"/>
+					<xsd:attribute name="path" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								The path the handler responds to
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="method" type="xsd:string">
+						<xsd:annotation>
+						
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="ref" type="xsd:string">
+						<xsd:annotation>
+						
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="websocket-handler">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:group ref="singleType"/>
+					<xsd:attribute name="path" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								The path the handler responds to
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="method" type="xsd:string">
+						<xsd:annotation>
+						
+						</xsd:annotation>
+					</xsd:attribute>
+					<xsd:attribute name="ref" type="xsd:string">
+						<xsd:annotation>
+						
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>	
 
 <!-- 	<xsd:element name="handler">
 		<xsd:annotation>
